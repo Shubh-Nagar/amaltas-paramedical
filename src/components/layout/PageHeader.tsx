@@ -19,7 +19,6 @@ export default function PageHeader({ title, crumbs = [], children, docTitle }: {
   const glowY = useTransform(p, [0, 1], [0, reduce ? 0 : 120]);
   const bloomY = useTransform(p, [0, 1], [0, reduce ? 0 : 60]);
   const textY = useTransform(p, [0, 1], [0, reduce ? 0 : -40]);
-  const textO = useTransform(p, [0, 0.9], [1, reduce ? 1 : 0.2]);
   const words = title.split(' ');
   return (
     <section ref={ref} data-no-reveal className="relative overflow-hidden bg-brand-600 bg-grain text-white">
@@ -35,7 +34,7 @@ export default function PageHeader({ title, crumbs = [], children, docTitle }: {
         <AmaltasBloom className="absolute right-[14%] top-0 hidden h-36 text-gold-200/70 md:block" length={4} delay={1.5} />
       </motion.div>
       <PulseLine className="absolute inset-x-0 bottom-4 h-14 w-full text-gold-300/25" />
-      <motion.div style={{ y: textY, opacity: textO }} className="container relative py-14 sm:py-20">
+      <motion.div style={{ y: textY }} className="container relative py-14 sm:py-20">
         <motion.nav
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
