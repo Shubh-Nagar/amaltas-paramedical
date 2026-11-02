@@ -1,11 +1,14 @@
 /**
- * All images, videos and PDFs are referenced from the ORIGINAL website so that
- * no media is duplicated or altered. Change VITE_ASSET_BASE (see .env.example)
- * to point at a different host, or at "/legacy/" if you copy the original
- * folders into /public/legacy.
+ * All images, videos and PDFs come from the ORIGINAL website (no media is copied).
+ * That server is HTTP-only, and browsers block HTTP media on an HTTPS page, so by
+ * default media is requested from "/legacy/" on this site's own domain, which
+ * proxies to http://amaltasgroup.co.in/paramedical/:
+ *   - Vercel: rewrite in vercel.json
+ *   - Netlify: public/_redirects
+ *   - local dev: server.proxy in vite.config.ts
+ * Override with VITE_ASSET_BASE (see .env.example).
  */
-const RAW_BASE: string =
-  (import.meta.env.VITE_ASSET_BASE as string | undefined) || 'http://amaltasgroup.co.in/paramedical/';
+const RAW_BASE: string = (import.meta.env.VITE_ASSET_BASE as string | undefined) || '/legacy/';
 
 export const ASSET_BASE = RAW_BASE.endsWith('/') ? RAW_BASE : `${RAW_BASE}/`;
 
