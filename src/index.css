@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  ::selection {
+    @apply bg-gold-300 text-ink;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold-400;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Site-wide motion & effects ---------- */
+@layer utilities {
+  /* Auto scroll-reveal (see useAutoReveal) */
+  .ar {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    filter: blur(6px);
+  }
+  .ar.ar-in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--ar-d, 0ms),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--ar-d, 0ms),
+      filter 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--ar-d, 0ms);
+  }
+
+  /* Light sweep across solid buttons on hover */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  .btn-shine:hover::after {
+    transform: translateX(120%);
+  }
+
+  /* Animated underline for text links */
+  .link-underline {
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1.5px;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1.5px;
+  }
+
+  /* Hover lift for cards */
+  .hover-lift {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 2px 4px rgba(10, 42, 26, 0.05), 0 28px 56px -22px rgba(10, 42, 26, 0.4);
+  }
+}
+
+/* Gentle hover zoom for photos inside any link/card, site-wide */
+a img,
+figure img,
+button img {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
+}
+a:hover img:not([class*='scale']),
+figure:hover img:not([class*='scale']) {
+  transform: scale(1.04);
+}
+header a img,
+footer a img {
+  transform: none !important;
+}
+
+/* Rounded white/brand cards in content get a soft lift on hover */
+main .rounded-3xl.shadow-card,
+main .rounded-2xl.shadow-card {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+main .rounded-3xl.shadow-card:hover,
+main .rounded-2xl.shadow-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgba(10, 42, 26, 0.05), 0 24px 48px -20px rgba(10, 42, 26, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .btn-shine::after { display: none; }
+  a:hover img, figure:hover img, main .shadow-card:hover { transform: none !important; }
+}
